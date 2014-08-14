@@ -1,0 +1,103 @@
+---
+
+- hosts: shell-servers
+  user: root
+  handlers:
+
+    - name: regen local user cache
+      command: /etc/cron.hourly/update-stacken-passwd-db-deb
+
+  tasks:
+
+    - name: Install packages
+      apt: name={{ item }} state=present
+      with_items:
+        - libnss-db
+        - openafs-client
+        - heimdal-clients
+        - sharutils
+        - libpam-afs-session
+
+    # If this failes, you need to manually add this hosts to the KDC
+    # and place the host key on this host:
+    # mylaptop$ ktutil -k mykeytab get -p myusername/admin host/myhost.stacken.kth.se
+    # mylaptop$ uuencode mykeytab /etc/krb5.keytab
+    # mynewserver# uudecode <paste here>
+    - name: Make sure we have a keytab (if this fails, fix this)
+      command: ktutil list
+      changed_when: False
+
+    # Change settings for the OpenSSH daemon
+    - name: Enable GSSAPIAuthentication=yes
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?GSSAPIAuthentication"
+        line: "GSSAPIAuthentication yes"
+    - name: Enable GSSAPIKeyExchange=yes
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?GSSAPIKeyExchange"
+        line: "GSSAPIKeyExchange yes"
+    - name: Enable GSSAPICleanupCredentials=no
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?GSSAPICleanupCredentials"
+        line: "GSSAPICleanupCredentials no"
+    - name: Enable GSSAPIStrictAcceptorCheck=no
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?GSSAPIStrictAcceptorCheck"
+        line: "GSSAPIStrictAcceptorCheck no"
+
+    # This is a cronjob that to the needed magic for our users, read the script for more info :)
+    - name: Link cronjob that manages the local users
+      file:
+        src: /afs/stacken.kth.se/i386_linux6/etc/cron.hourly/update-stacken-passwd-db-onlyusers
+        dest: /etc/cron.hourly/update-stacken-passwd-db-deb
+        state: link
+      notify: regen local user cache
+
+    # Update nsswitch.conf so we loads our users from "db"
+    - name: Update nsswitch.conf (1/2)
+      lineinfile:
+        dest: /etc/nsswitch.conf
+        regexp: "^passwd"
+        line: "passwd:         compat db"
+      notify: regen local user cache
+    - name: Update nsswitch.conf (2/2)
+      lineinfile:
+        dest: /etc/nsswitch.conf
+        regexp: "^shadow"
+        line: "shadow:         compat db"
+      notify: regen local user cache
+
+    # Update the db pam module and point it to the correct path
+    - name: Update /etc/default/libnss-db (1/2)
+      lineinfile:
+        dest: /etc/default/libnss-db
+        regexp: "^ETC"
+        line: "ETC = /etc/stacken"
+      notify: regen local user cache
+    - name: Update /etc/default/libnss-db (2/2)
+      lineinfile:
+        dest: /etc/default/libnss-db
+        regexp: "^DBS"
+        line: "DBS = passwd shadow"
+      notify: regen local user cache
+
+    # Configure the afs pam module so we get tokens
+    - name: Update PAM config for common-auth
+      lineinfile:
+        dest: /etc/pam.d/common-auth
+        regexp: "pam_afs_session.so"
+        line: "auth optional      pam_afs_session.so program=/usr/bin/afslog"
+    - name: Update PAM config for common-session
+      lineinfile:
+        dest: /etc/pam.d/common-session
+        regexp: "pam_afs_session.so"
+        line: "session  optional      pam_afs_session.so program=/usr/bin/afslog"
+    - name: Update PAM config for common-session-noninteractive
+      lineinfile:
+        dest: /etc/pam.d/common-session-noninteractive
+        regexp: "pam_afs_session.so"
+        line: "session  optional      pam_afs_session.so program=/usr/bin/afslog"
