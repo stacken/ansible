@@ -9,14 +9,46 @@
 
   tasks:
 
+    - name: Remove packages
+      apt: name={{ item }} state=present
+      with_items:
+        - exim4  # we use postfix
+
     - name: Install packages
       apt: name={{ item }} state=present
       with_items:
+        # Libs and stacken core apps
         - libnss-db
         - openafs-client
         - heimdal-clients
-        - sharutils
         - libpam-afs-session
+        - ntpdate
+        - postfix
+
+        # Nice to have
+        - sharutils
+        - screen
+        - tmux
+        - mailutils
+
+        # Debug and dev
+        - strace
+        - valgrind
+        - tcpdump
+        - nmap
+
+        # Shells
+        - zsh
+
+        # CMS (source code management)
+        - rcs
+        - rcs-blame
+        - git
+        - subversion
+        - cvs
+        - mercurial
+        - bzr
+        - monotone
 
     # If this failes, you need to manually add this hosts to the KDC
     # and place the host key on this host:
