@@ -9,7 +9,7 @@ You need Ansible to execute this, install it with python-pip:
 
 To simulate a run, use --check
 
-`ansible-playbook -i inventory site.yml --check`
+`ansible-playbook -i inventory site.yml --check` or `make check`
 
 To limit it to a specific host or group, do:
 
@@ -20,3 +20,5 @@ or
 `ansible-playbook -i inventory site.yml --check -l shell-servers`
 
 To run this for real, just remove "--check".
+
+To run on all servers, type `make install`.
