@@ -1,7 +1,6 @@
 ---
 
 - hosts: all
-  user: root
   tasks:
     - name: Install packages on all servers
       apt: name={{ item }} state=present
@@ -9,4 +8,5 @@
         - emacs
         - vim
 
+- include: generic.yml
 - include: shell-servers.yml

@@ -1,0 +1,42 @@
+---
+
+- hosts: all
+  tasks:
+
+    - name: Install packages
+      apt: name={{ item }} state=present
+      with_items:
+        - openafs-client
+        - heimdal-clients
+        - sharutils
+
+    # If this failes, you need to manually add this hosts to the KDC
+    # and place the host key on this host:
+    # mylaptop$ ktutil -k mykeytab get -p myusername/admin host/myhost.stacken.kth.se
+    # mylaptop$ uuencode mykeytab /etc/krb5.keytab
+    # mynewserver# uudecode <paste here>
+    - name: Make sure we have a keytab (if this fails, fix this)
+      command: ktutil list
+      changed_when: False
+
+    # Change settings for the OpenSSH daemon
+    - name: Enable GSSAPIAuthentication=yes
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?GSSAPIAuthentication"
+        line: "GSSAPIAuthentication yes"
+    - name: Enable GSSAPIKeyExchange=yes
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?GSSAPIKeyExchange"
+        line: "GSSAPIKeyExchange yes"
+    - name: Enable GSSAPICleanupCredentials=no
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?GSSAPICleanupCredentials"
+        line: "GSSAPICleanupCredentials no"
+    - name: Enable GSSAPIStrictAcceptorCheck=no
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?GSSAPIStrictAcceptorCheck"
+        line: "GSSAPIStrictAcceptorCheck no"

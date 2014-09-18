@@ -1,3 +1,5 @@
 [shell-servers]
-oyster.stacken.kth.se
 xacto.stacken.kth.se
+
+[generic]
+130.237.234.131
