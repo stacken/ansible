@@ -8,11 +8,44 @@
 
   tasks:
 
+    - name: Remove packages
+      apt: name={{ item }} state=absent
+      with_items:
+        - exim4  # we use postfix
+
     - name: Install packages
       apt: name={{ item }} state=present
       with_items:
+        # Libs and stacken core apps
         - libnss-db
         - libpam-afs-session
+        - ntpdate
+        - postfix
+
+        # Nice to have
+        - sharutils
+        - screen
+        - tmux
+        - mailutils
+
+        # Debug and dev
+        - strace
+        - valgrind
+        - tcpdump
+        - nmap
+
+        # Shells
+        - zsh
+
+        # CMS (source code management)
+        - rcs
+        - rcs-blame
+        - git
+        - subversion
+        - cvs
+        - mercurial
+        - bzr
+        - monotone
 
     # This is a cronjob that to the needed magic for our users, read the script for more info :)
     - name: Link cronjob that manages the local users
