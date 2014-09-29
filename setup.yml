@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  connection: local
+  sudo: no
+  roles:
+    - {
+        role: nsg.galaxy,
+        galaxy_path: roles,
+        galaxy_roles: [
+          { name: gujo.collectd, git: "https://github.com/gujo/ansible-collectd.git", rev: "39bd88ab8e13ba6de9d1f6b5cefbf4550bd74fb1" }
+        ]
+      }
