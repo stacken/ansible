@@ -1,0 +1,60 @@
+---
+
+- name: Install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - libnss-db
+    - libpam-afs-session
+
+# This is a cronjob that to the needed magic for our users, read the script for more info :)
+- name: Link cronjob that manages the local users
+  file:
+    src: /afs/stacken.kth.se/i386_linux6/etc/cron.hourly/update-stacken-passwd-db-onlyusers
+    dest: /etc/cron.hourly/update-stacken-passwd-db-deb
+    state: link
+  notify: regen local user cache
+
+# Update nsswitch.conf so we loads our users from "db"
+- name: Update nsswitch.conf (1/2)
+  lineinfile:
+    dest: /etc/nsswitch.conf
+    regexp: "^passwd"
+    line: "passwd:         compat db"
+  notify: regen local user cache
+- name: Update nsswitch.conf (2/2)
+  lineinfile:
+    dest: /etc/nsswitch.conf
+    regexp: "^shadow"
+    line: "shadow:         compat db"
+  notify: regen local user cache
+
+# Update the db pam module and point it to the correct path
+- name: Update /etc/default/libnss-db (1/2)
+  lineinfile:
+    dest: /etc/default/libnss-db
+    regexp: "^ETC"
+    line: "ETC = /etc/stacken"
+  notify: regen local user cache
+- name: Update /etc/default/libnss-db (2/2)
+  lineinfile:
+    dest: /etc/default/libnss-db
+    regexp: "^DBS"
+    line: "DBS = passwd shadow"
+  notify: regen local user cache
+
+# Configure the afs pam module so we get tokens
+- name: Update PAM config for common-auth
+  lineinfile:
+    dest: /etc/pam.d/common-auth
+    regexp: "pam_afs_session.so"
+    line: "auth optional      pam_afs_session.so program=/usr/bin/afslog"
+- name: Update PAM config for common-session
+  lineinfile:
+    dest: /etc/pam.d/common-session
+    regexp: "pam_afs_session.so"
+    line: "session  optional      pam_afs_session.so program=/usr/bin/afslog"
+- name: Update PAM config for common-session-noninteractive
+  lineinfile:
+    dest: /etc/pam.d/common-session-noninteractive
+    regexp: "pam_afs_session.so"
+    line: "session  optional      pam_afs_session.so program=/usr/bin/afslog"

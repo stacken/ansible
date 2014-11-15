@@ -1,11 +1,8 @@
 ---
 
 - hosts: shell-servers
-  handlers:
-
-    - name: regen local user cache
-      command: /etc/cron.hourly/update-stacken-passwd-db-deb
-
+  roles:
+    - stacken-users
   tasks:
 
     - name: Remove packages

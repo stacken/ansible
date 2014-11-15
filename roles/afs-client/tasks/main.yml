@@ -1,0 +1,9 @@
+---
+
+- name: Install packages
+  apt: name=openafs-client state=present
+
+- name: Update ThisCell
+  copy:
+    dest: "/etc/openafs/ThisCell"
+    content: "stacken.kth.se\n"

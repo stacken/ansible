@@ -1,0 +1,5 @@
+---
+
+dependencies:
+  - afs-client
+  - kerberos

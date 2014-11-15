@@ -1,0 +1,4 @@
+---
+
+- name: regen local user cache
+  command: /etc/cron.hourly/update-stacken-passwd-db-deb

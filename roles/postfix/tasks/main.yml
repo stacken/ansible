@@ -1,0 +1,17 @@
+---
+
+- name: Debian | Remove exim4
+  apt: name=exim4 state=absent
+  when: ansible_os_family == "Debian"
+
+- name: RedHat | Remove exim4
+  yum: name=exim4 state=absent
+  when: ansible_os_family == "RedHat"
+
+- name: Debian | Install postfix
+  apt: name=postfix
+  when: ansible_os_family == "Debian"
+
+- name: RedHat | Install postfix
+  yum: name=postfix
+  when: ansible_os_family == "RedHat"

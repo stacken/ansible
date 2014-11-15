@@ -1,12 +1,24 @@
 ---
 
+# Do this on all servers in ./inventory
 - hosts: all
   tasks:
-    - name: Install packages on all servers
+    - name: Debian | Install packages on all servers
       apt: name={{ item }} state=present
       with_items:
         - emacs
         - vim
+        - sharutils
+      when: ansible_os_family == "Debian"
 
-- include: generic.yml
+    - name: RedHat | Install packages on all servers
+      yum: name={{ item }} state=present
+      with_items:
+        - emacs
+        - vim
+        - sharutils
+      when: ansible_os_family == "RedHat"
+
+# Do this on special groups of servers
 - include: shell-servers.yml
+- include: kvm-servers.yml

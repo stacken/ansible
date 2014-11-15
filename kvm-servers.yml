@@ -1,0 +1,5 @@
+---
+
+- hosts: kvm-servers
+  roles:
+    - postfix
