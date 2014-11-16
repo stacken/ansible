@@ -4,6 +4,7 @@
   roles:
     - postfix
     - network
+    - motd
   tasks:
     - name: Check for vmx and svm CPU flags
       shell: "grep flags /proc/cpuinfo | egrep -q '(vmx|svm)'"

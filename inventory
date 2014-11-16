@@ -3,3 +3,7 @@ xacto.stacken.kth.se
 
 [misc-servers]
 oyster.stacken.kth.se
+
+[kvm-servers]
+blade-a-server-3.stacken.kth.se
+blade-a-server-4.stacken.kth.se

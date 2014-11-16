@@ -1,0 +1,13 @@
+---
+
+network_config:
+  - device_name: eno2
+    device_mac: "00:1e:4f:27:25:ee"
+    device_bridge: bridge0
+    device_proto: none
+  - device_name: bridge0
+    device_proto: dhcp
+    device_type: Bridge
+
+motd:
+  - "This is a KVM host managed by Ansible."
