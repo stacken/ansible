@@ -1,0 +1,7 @@
+---
+
+- name: Write network configurations
+  template:
+    src: "ifcfg.dev.j2"
+    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ item.device_name }}"
+  with_items: network_config

@@ -1,0 +1,22 @@
+# {{ ansible_managed }}
+DEVICE="{{ item.device_name }}"
+ONBOOT={{ item.device_onboot | default('yes') }}
+NETBOOT={{ item.device_netboot | default('yes') }}
+IPV6INIT={{ item.device_ipv6 | default('yes') }}
+{% if item.device_mac is defined -%}
+HWADDR="{{ item.device_mac }}"
+{% endif -%}
+{% if item.device_bridge is defined -%}
+BRIDGE={{ item.device_bridge }}
+{% endif -%}
+BOOTPROTO={{ item.device_proto | default('dhcp') }}
+{% if item.device_addr is defined -%}
+IPADDR="{{ item.device_addr }}"
+NETMASK="{{ item.device_netmask }}"
+GATEWAY="{{ item.device_gateway }}"
+DNS1="{{ item.device_dns1 }}"
+DNS2="{{ item.device_dns2 }}"
+{% endif -%}
+TYPE={{ item.device_type | default('Ethernet') }}
+NAME="{{ item.device_name }}"
+NM_CONTROLLED={{ item.device_nm | default('no') }}
