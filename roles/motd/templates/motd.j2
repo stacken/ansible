@@ -1,0 +1,18 @@
+Welcome to {{ ansible_fqdn }} running {{ ansible_distribution }} {{ ansible_distribution_version }}
+
+{{ ansible_default_ipv4.interface.ljust(10) }} {{ ansible_default_ipv4.address }}
+{% if ansible_default_ipv6.interface is defined -%}
+{{ ansible_default_ipv6.interface.ljust(10) }} {{ ansible_default_ipv6.address }}
+{% endif -%}
+{% for disk in ansible_devices %}
+{{ disk.ljust(10) }} {{ ansible_devices[disk].size }}
+{% endfor %}
+System     {{ ansible_machine }}
+RAM        {{ ansible_memtotal_mb }} MB
+CPU        {{ ansible_processor[0] }}
+  cores    {{ ansible_processor_cores }} (vcpu: {{ ansible_processor_vcpus }})
+Kernel     {{ ansible_kernel }}
+
+{% for line in motd %}
+{{ line }}
+{% endfor %}
