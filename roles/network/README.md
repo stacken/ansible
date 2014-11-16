@@ -23,19 +23,19 @@ network_config:
 
 The full set of options are:
 
-| value          | required          | default  |
-|----------------|-------------------|----------|
-| device_name    | yes               |          |
-| device_onboot  | no                | yes      |
-| device_netboot | no                | yes      |
-| device_ipv6    | no                | yes      |
-| device_mac     | no                |          |
-| device_bridge  | no                |          |
-| device_proto   | no                | dhcp     |
-| device_addr    | no                |          |
-| device_netmask | yes if device_add |          |
-| device_gateway | yes if device_add |          |
-| device_dns1    | yes if device_add |          |
-| device_dns2    | yes if device_add |          |
-| device_type    | no                | Ethernet |
-| device_nm      | no                | no       |
+| value          | required           | default  |
+|----------------|--------------------|----------|
+| device_name    | yes                |          |
+| device_onboot  | no                 | yes      |
+| device_netboot | no                 | yes      |
+| device_ipv6    | no                 | yes      |
+| device_mac     | no                 |          |
+| device_bridge  | no                 |          |
+| device_proto   | no                 | dhcp     |
+| device_addr    | no                 |          |
+| device_netmask | yes if device_addr |          |
+| device_gateway | yes if device_addr |          |
+| device_dns1    | yes if device_addr |          |
+| device_dns2    | yes if device_addr |          |
+| device_type    | no                 | Ethernet |
+| device_nm      | no                 | no       |
