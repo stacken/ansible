@@ -1,0 +1,60 @@
+---
+
+- name: Disable selinux (1/2)
+  selinux: policy=targeted state=disabled
+  register: selinux_status
+
+- name: Disable selinux (2/2)
+  command: setenforce 0
+  when: selinux_status|changed
+
+- name: Install glusterfs-epel repo
+  copy: src=glusterfs-epel.repo dest=/etc/yum.repos.d/glusterfs-epel.repo
+
+- name: Import GPG signature for glusterfs-epel
+  copy: src=pub.key dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-GLUSTERFS-EPEL
+
+- name: Install gluster applications
+  yum: name="{{ item }}"
+  with_items:
+    - glusterfs-server
+    - glusterfs-fuse
+    - glusterfs-geo-replication
+
+- name: Enable glusterd
+  service: name=glusterd enabled=yes state=started
+
+- name: Enable glusterfsd
+  service: name=glusterfsd enabled=yes state=started
+
+- name: Setup the gluster blick:s VG (LVM)
+  lvol:
+    vg: "{{ gluster.vg_name }}"
+    lv: "{{ gluster.lv_name | default('glusterfs') }}"    
+    size: "{{ gluster.size }}"
+  when: gluster.vg_name is defined
+
+- name: Make filesystem
+  filesystem: fstype=xfs dev=/dev/mapper/{{ gluster.vg_name }}-{{ gluster.lv_name }}
+  when: gluster.vg_name is defined
+
+- name: Make gluster mount point
+  file: path=/export/gluster state=directory
+
+- name: Mount gluster volume
+  mount:
+    name: /export/gluster
+    fstype: xfs
+    src: /dev/mapper/{{ gluster.vg_name }}-{{ gluster.lv_name }}
+    state: mounted
+  when: gluster.vg_name is defined
+
+- name: Open firewall
+  firewalld:
+    port: "{{ item }}"
+    permanent: true
+    state: disabled
+  with_items:
+    - "24007/tcp"
+    - "24009/tcp"
+    - "24010/tcp"
