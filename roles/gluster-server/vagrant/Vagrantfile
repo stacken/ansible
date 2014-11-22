@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define "trusty" do |trusty|
+    trusty.vm.hostname = "trusty"
+    trusty.vm.box = "ubuntu/trusty64"
+  end
+
+  config.vm.define "centos7" do |centos7|
+    centos7.vm.hostname = "centos7"
+    centos7.vm.box = "chef/centos-7.0"
+  end
+
+  config.vm.define "debian7" do |debian7|
+    debian7.vm.hostname = "debian7"
+    debian7.vm.box = "chef/debian-7.4"
+  end
+
+  ansible_group = {
+      "vagrant" => ["trusty", "centos7", "debian7"]
+  }
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "site.yml"
+    ansible.sudo = true
+    ansible.groups = ansible_group
+    ansible.raw_arguments = ["--diff"]
+  end
+
+  config.vm.synced_folder "../vagrant", "/vagrant"
+
+end
