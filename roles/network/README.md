@@ -35,7 +35,9 @@ The full set of options are:
 | device_addr    | no                 |          |
 | device_netmask | yes if device_addr |          |
 | device_gateway | yes if device_addr |          |
-| device_dns1    | yes if device_addr |          |
-| device_dns2    | yes if device_addr |          |
+| device_addr6   | no                 |          |
+| device_gateway6| yes if device_addr6|          |
+| device_dns1    | no                 |          |
+| device_dns2    | yes if device_dns1 |          |
 | device_type    | no                 | Ethernet |
 | device_nm      | no                 | no       |
