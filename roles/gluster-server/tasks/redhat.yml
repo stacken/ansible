@@ -21,3 +21,8 @@
     - glusterfs-fuse
     - glusterfs-geo-replication
 
+- name: Enable glusterd
+  service: name=glusterd enabled=yes state=started
+
+- name: Enable glusterfsd
+  service: name=glusterfsd enabled=yes state=started

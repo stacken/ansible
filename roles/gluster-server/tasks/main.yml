@@ -3,8 +3,6 @@
 - include: redhat.yml
   when: ansible_os_family == "RedHat"
 
-- name: Enable glusterd
-  service: name=glusterd enabled=yes state=started
+- include: debian.yml
+  when: ansible_os_family == "Debian"
 
-- name: Enable glusterfsd
-  service: name=glusterfsd enabled=yes state=started

@@ -1,0 +1,17 @@
+---
+
+- name: Import apt sign key for GlusterFS repos
+  apt_key:
+    url: "http://download.gluster.org/pub/gluster/glusterfs/3.6/LATEST/Debian/wheezy/pubkey.gpg"
+
+- name: Add Debian repo for GlusterFS 3.6.x
+  apt_repository:
+    repo: "deb http://download.gluster.org/pub/gluster/glusterfs/3.6/LATEST/Debian/wheezy/apt wheezy main"
+    update_cache: yes
+
+- name: Install glusterfs-server
+  apt:
+    name: glusterfs-server
+
+- name: Enable glusterfs-server
+  service: name=glusterfs-server enabled=yes state=started
