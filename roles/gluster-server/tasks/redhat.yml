@@ -18,8 +18,6 @@
   yum: name="{{ item }}"
   with_items:
     - glusterfs-server
-    - glusterfs-fuse
-    - glusterfs-geo-replication
 
 - name: Enable glusterd
   service: name=glusterd enabled=yes state=started
