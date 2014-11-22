@@ -6,7 +6,14 @@ network_config:
     device_bridge: bridge0
     device_proto: none
   - device_name: bridge0
-    device_proto: dhcp
+    device_proto: static
+    device_addr: 130.237.234.66
+    device_addr6: 2001:6b0:1:ea::66
+    device_gateway6: "2001:6b0:1:ea::1/64"
+    device_netmask: 255.255.255.0
+    device_gateway: 130.237.234.1
+    device_dns1: 130.237.72.200
+    device_dns2: 130.237.72.201
     device_type: Bridge
 
 motd:
