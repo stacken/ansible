@@ -14,9 +14,16 @@ BOOTPROTO={{ item.device_proto | default('dhcp') }}
 IPADDR="{{ item.device_addr }}"
 NETMASK="{{ item.device_netmask }}"
 GATEWAY="{{ item.device_gateway }}"
+{% endif -%}
+{% if item.device_addr6 is defined -%}
+IPV6ADDR="{{ item.device_addr6 }}"
+IPV6_DEFAULTGW="{{ item.device_gateway6 }}"
+{% endif -%}
+{% if item.device_dns1 is defined -%}
 DNS1="{{ item.device_dns1 }}"
 DNS2="{{ item.device_dns2 }}"
 {% endif -%}
 TYPE={{ item.device_type | default('Ethernet') }}
 NAME="{{ item.device_name }}"
 NM_CONTROLLED={{ item.device_nm | default('no') }}
+DELAY=0

@@ -5,3 +5,9 @@
     src: "ifcfg.dev.j2"
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ item.device_name }}"
   with_items: network_config
+
+- name: Enable IPv6
+  lineinfile:
+    dest: /etc/sysconfig/network
+    regexp: "^NETWORKING_IPV6"
+    line: "NETWORKING_IPV6=yes"
