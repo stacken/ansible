@@ -21,14 +21,20 @@
     - attr
 
 - name: Make sure we have /etc/sysconfig/i18n
-  file: path=/etc/sysconfig/i18n state=touch
+  file: path="{{ item }}" state=touch
   changed_when: False
+  with_items:
+    - /etc/environment
+    - /etc/sysconfig/i18n
 
 - name: Set system LC_NUMERIC to en_US.UTF-8 as a workaround for bug bug-1117951
   lineinfile:
-    dest: /etc/sysconfig/i18n
+    dest: "{{ item }}"
     regexp: "^LC_NUMERIC"
     line: "LC_NUMERIC=en_US.UTF-8"
+  with_items:
+    - /etc/environment
+    - /etc/sysconfig/i18n
 
 - name: Enable glusterd
   service: name=glusterd enabled=yes state=started
