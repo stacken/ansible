@@ -31,7 +31,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   }
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = ENV['TEST'] ? "test.yml" : "site.yml"
+    ansible.playbook = "site.yml"
     ansible.sudo = true
     ansible.groups = ansible_group
     ansible.raw_arguments = ["--diff", "-v"]
