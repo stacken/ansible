@@ -11,7 +11,10 @@
 
 - name: Install glusterfs-server
   apt:
-    name: glusterfs-server
+    name: "{{ item }}"
+  with_items:
+    - glusterfs-server
+    - attr
 
 - name: Enable glusterfs-server
   service: name=glusterfs-server enabled=yes state=started

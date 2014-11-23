@@ -18,6 +18,17 @@
   yum: name="{{ item }}"
   with_items:
     - glusterfs-server
+    - attr
+
+- name: Make sure we have /etc/sysconfig/i18n
+  file: path=/etc/sysconfig/i18n state=touch
+  changed_when: False
+
+- name: Set system LC_NUMERIC to en_US.UTF-8 as a workaround for bug bug-1117951
+  lineinfile:
+    dest: /etc/sysconfig/i18n
+    regexp: "^LC_NUMERIC"
+    line: "LC_NUMERIC=en_US.UTF-8"
 
 - name: Enable glusterd
   service: name=glusterd enabled=yes state=started
