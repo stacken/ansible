@@ -3,3 +3,11 @@
 - hosts: vagrant
   roles:
     - gluster-server
+  tasks:
+    - name: Setup gluster directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "/gluster"
+        - "/mnt/gluster"

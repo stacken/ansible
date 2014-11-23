@@ -8,16 +8,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "trusty" do |trusty|
     trusty.vm.hostname = "trusty"
     trusty.vm.box = "ubuntu/trusty64"
+    trusty.vm.network "public_network"
+    trusty.vm.network "private_network", ip: "192.168.50.2"
   end
 
   config.vm.define "centos7" do |centos7|
     centos7.vm.hostname = "centos7"
     centos7.vm.box = "chef/centos-7.0"
+    centos7.vm.network "public_network"
+    centos7.vm.network "private_network", ip: "192.168.50.3"
   end
 
   config.vm.define "debian7" do |debian7|
     debian7.vm.hostname = "debian7"
     debian7.vm.box = "chef/debian-7.4"
+    debian7.vm.network "public_network"
+    debian7.vm.network "private_network", ip: "192.168.50.4"
   end
 
   ansible_group = {
@@ -25,10 +31,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   }
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "site.yml"
+    ansible.playbook = ENV['TEST'] ? "test.yml" : "site.yml"
     ansible.sudo = true
     ansible.groups = ansible_group
-    ansible.raw_arguments = ["--diff"]
+    ansible.raw_arguments = ["--diff", "-v"]
   end
 
   config.vm.synced_folder "../vagrant", "/vagrant"
