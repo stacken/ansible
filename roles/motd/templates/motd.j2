@@ -1,3 +1,4 @@
+
 Welcome to {{ ansible_fqdn }} running {{ ansible_distribution }} {{ ansible_distribution_version }}
 
 {{ ansible_default_ipv4.interface.ljust(10) }} {{ ansible_default_ipv4.address }}
@@ -16,3 +17,4 @@ Kernel     {{ ansible_kernel }}
 {% for line in motd %}
 {{ line }}
 {% endfor %}
+

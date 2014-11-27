@@ -1,0 +1,5 @@
+---
+
+- hosts: afs-file-servers
+  roles:
+    - motd

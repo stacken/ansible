@@ -7,3 +7,8 @@ oyster.stacken.kth.se
 [kvm-servers]
 blade-a-server-3.stacken.kth.se
 blade-a-server-4.stacken.kth.se
+
+[afs-file-servers]
+beef.stacken.kth.se
+mount-everest.stacken.kth.se
+mount-kilimanjaro.stacken.kth.se

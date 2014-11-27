@@ -1,0 +1,5 @@
+---
+
+motd:
+  - This is a AFS file server for the cell stacken.kth.se
+  - This server uses MD raid6 with LVM
