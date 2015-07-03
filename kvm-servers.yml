@@ -19,6 +19,7 @@
         - libvirt
         - qemu-kvm
         - libvirt-client
+        - libvirt-daemon
         - libvirt-daemon-kvm
         - virt-install
         - bridge-utils
@@ -26,3 +27,6 @@
 
     - name: Start libvirtd service, load it on boot
       service: name=libvirtd state=started enabled=yes
+
+    - name: Set hostname from inventory
+      hostname: name={{ inventory_hostname_short }}

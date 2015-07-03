@@ -23,4 +23,3 @@ gluster:
   vg_name: RD
   lv_name: glusterfs
   size: 45g
-
