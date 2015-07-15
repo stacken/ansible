@@ -20,6 +20,6 @@
       when: ansible_os_family == "RedHat"
 
 # Do this on special groups of servers
-- include: shell-servers.yml
-- include: kvm-servers.yml
-- include: afs-file-servers.yml
+- include: playbooks/shell-servers.yml
+- include: playbooks/kvm-servers.yml
+- include: playbooks/afs-file-servers.yml
