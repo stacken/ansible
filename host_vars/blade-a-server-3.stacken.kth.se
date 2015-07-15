@@ -1,6 +1,12 @@
 ---
 
 network_config:
+  - device_name: eno1
+    device_mac: "00:1e:4f:27:25:ec"
+    device_proto: static
+    device_addr: 10.0.32.66
+    device_netmask: 255.255.255.0
+    device_ipv6: "no"
   - device_name: eno2
     device_mac: "00:1e:4f:27:25:ee"
     device_bridge: bridge0

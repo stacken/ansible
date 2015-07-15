@@ -24,9 +24,21 @@
         - virt-install
         - bridge-utils
         - bind-utils
+        - nfs-utils
 
     - name: Start libvirtd service, load it on boot
       service: name=libvirtd state=started enabled=yes
 
+    - name: Hostfix for broken rpc service file
+      lineinfile:
+        dest: /usr/lib/systemd/system/rpc-statd.service
+        regexp: '^After=network.target'
+        line: "After=network.target nss-lookup.target rpcbind.service"
+      notify: reload nfs
+
     - name: Set hostname from inventory
       hostname: name={{ inventory_hostname_short }}
+
+  handlers:
+    - name: reload nfs
+      service: name=nfs state=restarted

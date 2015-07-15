@@ -13,7 +13,9 @@ BOOTPROTO={{ item.device_proto | default('dhcp') }}
 {% if item.device_addr is defined -%}
 IPADDR="{{ item.device_addr }}"
 NETMASK="{{ item.device_netmask }}"
+{% if item.device_gateway is defined -%}
 GATEWAY="{{ item.device_gateway }}"
+{% endif -%}
 {% endif -%}
 {% if item.device_addr6 is defined -%}
 IPV6ADDR="{{ item.device_addr6 }}"
