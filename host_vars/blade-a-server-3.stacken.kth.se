@@ -29,3 +29,7 @@ gluster:
   vg_name: RD
   lv_name: glusterfs
   size: 45g
+
+nfsfs_addr: 10.0.32.151
+nfsfs_path: /mnt/kvm
+nfsfs_opts: "rw,sync,nfsvers=3,noatime"
