@@ -5,3 +5,22 @@
     - motd
     - kerberos
     - postfix
+  tasks:
+    - name: Install packages
+      apt: name={{ item }}
+      with_items:
+        - smartmontools
+        - lsb-release
+
+    # Setup ZFS
+    - name: Setup ZFS on Linux APT repo key
+      apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: 5EB35C47B97AC11F551DB287201C31294D5843EA
+
+    - name: Add ZFS on Linux APT repo
+      apt_repository:
+        repo: 'deb [arch=amd64] http://archive.zfsonlinux.org/debian jessie main'
+
+    - name: Install ZFS on Debian
+      apt: name=debian-zfs
