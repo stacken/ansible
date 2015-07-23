@@ -14,7 +14,7 @@ glusterfs-file-servers
 
 [afs-file-servers]
 beef.stacken.kth.se
-mount-everest.stacken.kth.se
+#mount-everest.stacken.kth.se - ska installeras om snart
 
 [glusterfs-file-servers]
 mount-kilimanjaro.stacken.kth.se
