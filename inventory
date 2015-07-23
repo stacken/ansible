@@ -8,7 +8,12 @@ oyster.stacken.kth.se
 blade-a-server-3.stacken.kth.se
 blade-a-server-4.stacken.kth.se
 
+[file-servers:children]
+afs-file-servers
+
 [afs-file-servers]
 beef.stacken.kth.se
 mount-everest.stacken.kth.se
+
+[glusterfs-file-servers]
 mount-kilimanjaro.stacken.kth.se

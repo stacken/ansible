@@ -1,0 +1,9 @@
+---
+
+- hosts: file-servers
+  roles:
+    - motd
+
+- hosts: afs-file-servers
+  roles:
+    - kerberos

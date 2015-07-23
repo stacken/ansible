@@ -1,9 +1,0 @@
----
-
-- hosts: afs-file-servers
-  roles:
-    - motd
-
-- hosts: beef.stacken.kth.se
-  roles:
-    - kerberos
