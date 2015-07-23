@@ -31,3 +31,18 @@
     dest: /etc/ssh/sshd_config
     regexp: "^#?GSSAPIStrictAcceptorCheck"
     line: "GSSAPIStrictAcceptorCheck no"
+- name: Enable KerberosAuthentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#?KerberosAuthentication"
+    line: "KerberosAuthentication yes"
+- name: Enable KerberosOrLocalPasswd
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#?KerberosOrLocalPasswd"
+    line: "KerberosOrLocalPasswd yes"
+- name: Enable KerberosTicketCleanup
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#?KerberosTicketCleanup"
+    line: "KerberosTicketCleanup yes"
