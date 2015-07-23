@@ -56,3 +56,17 @@
     dest: /etc/ssh/sshd_config
     regexp: "^#?KerberosTicketCleanup"
     line: "KerberosTicketCleanup yes"
+
+- name: Fetch k5login from beef
+  shell: awk -F'/' '{print $1}' /root/.k5login
+  register: k5login_users
+  delegate_to: beef.stacken.kth.se
+  changed_when: False
+
+- name: Update k5login
+  lineinfile:
+    dest: /root/.k5login
+    regexp: "^{{ item }}.root"
+    line: "{{ item }}/root@STACKEN.KTH.SE"
+    create: yes
+  with_items: k5login_users.stdout_lines
