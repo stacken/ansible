@@ -1,14 +1,24 @@
 - name: Install packages
   apt: name=heimdal-clients state=present
 
+- name: Make sure we have a keytab (if this fails, fix this)
+  command: ktutil list
+  changed_when: False
+  failed_when: False
+  register: has_keytab
+
 # If this failes, you need to manually add this hosts to the KDC
 # and place the host key on this host:
 # mylaptop$ ktutil -k mykeytab get -p myusername/admin host/myhost.stacken.kth.se
 # mylaptop$ uuencode mykeytab /etc/krb5.keytab
 # mynewserver# uudecode <paste here>
-- name: Make sure we have a keytab (if this fails, fix this)
-  command: ktutil list
-  changed_when: False
+- name: Check out a host principal from the KDC
+  local_action: >
+    shell echo run
+    ktutil -k mykeytab get -p myusername/admin host/{{ inventory_hostname }}
+    and place that file at /etc/krb5.keytab on {{ inventory_hostname_short }}
+  failed_when: True
+  when: has_keytab|failed
 
 # Change settings for the OpenSSH daemon
 - name: Enable GSSAPIAuthentication=yes

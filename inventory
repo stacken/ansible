@@ -10,6 +10,7 @@ blade-a-server-4.stacken.kth.se
 
 [file-servers:children]
 afs-file-servers
+glusterfs-file-servers
 
 [afs-file-servers]
 beef.stacken.kth.se
