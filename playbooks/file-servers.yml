@@ -5,7 +5,6 @@
     - motd
     - kerberos
     - postfix
-    - ntpd
   tasks:
     - name: Install packages
       apt: name={{ item }}

@@ -2,6 +2,8 @@
 
 # Do this on all servers in ./inventory
 - hosts: all
+  roles:
+    - ntpd
   tasks:
     - name: Debian | Install packages on all servers
       apt: name={{ item }} state=present
