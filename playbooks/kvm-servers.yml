@@ -49,14 +49,10 @@
     - name: Install GlusterFS FUSE package
       yum: name=glusterfs-fuse
 
-    - name: Set local adress to file servers in hosts
-      lineinfile:
+    - name: Deploy hosts
+      template:
+        src: templates/hosts-kvm.j2
         dest: /etc/hosts
-        regexp: "{{ item.host }}"
-        line: "{{ item.ip }} {{ item.host }} {{ item.host }}.stacken.kth.se"
-      with_items:
-        - host: mount-kilimanjaro
-          ip: 10.0.32.151
 
     - name: Deploy qemu.conf
       template:
