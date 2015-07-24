@@ -1,0 +1,7 @@
+---
+
+- name: Install glusterfs-epel repo
+  copy: src=glusterfs-epel.repo dest=/etc/yum.repos.d/glusterfs-epel.repo
+
+- name: Import GPG signature for glusterfs-epel
+  copy: src=pub.key dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-GLUSTERFS-EPEL

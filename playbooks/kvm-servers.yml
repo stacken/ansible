@@ -5,6 +5,7 @@
     - postfix
     - network
     - motd
+    - gluster-repos
   tasks:
     - name: Check for vmx and svm CPU flags
       shell: "grep flags /proc/cpuinfo | egrep -q '(vmx|svm)'"
@@ -47,3 +48,6 @@
     - name: SELINUX | Set virt_use_nfs=on
       shell: setsebool -P virt_use_nfs=on
       when: virt_use_nfs.stdout.find('off') != -1
+
+    - name: Install GlusterFS FUSE package
+      yum: name=glusterfs-fuse

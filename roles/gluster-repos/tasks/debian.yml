@@ -1,0 +1,11 @@
+---
+
+- include_vars: "Debian_{{ ansible_distribution_release }}.yml"
+
+- name: Import apt sign key for GlusterFS repos
+  apt_key: url={{ gluster_key.url }} id={{ gluster_key.id }}
+
+- name: Add Debian repo for GlusterFS 3.6.x
+  apt_repository:
+    repo: "deb http://download.gluster.org/pub/gluster/glusterfs/3.6/LATEST/Debian/{{ ansible_distribution_release }}/apt {{ ansible_distribution_release }} main"
+    update_cache: yes
