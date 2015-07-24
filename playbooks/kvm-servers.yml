@@ -51,3 +51,12 @@
 
     - name: Install GlusterFS FUSE package
       yum: name=glusterfs-fuse
+
+    - name: Set local adress to file servers in hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "{{ item.host }}"
+        line: "{{ item.ip }} {{ item.host }} {{ item.host }}.stacken.kth.se"
+      with_items:
+        - host: mount-kilimanjaro
+          ip: 10.0.32.151
