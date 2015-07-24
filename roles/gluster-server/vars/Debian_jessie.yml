@@ -1,0 +1,5 @@
+---
+
+gluster_key:
+  url: "http://download.gluster.org/pub/gluster/glusterfs/3.6/LATEST/Debian/{{ ansible_distribution_release }}/pub.key"
+  id: 4AB22BB3

@@ -24,3 +24,14 @@
 
     - name: Install ZFS on Debian
       apt: name=debian-zfs
+
+- hosts: glusterfs-file-servers
+  roles:
+    - network
+    - gluster-server
+  tasks:
+    - name: Install NFS packages
+      apt: name={{ item }}
+      with_items:
+        - nfs-kernel-server
+        - nfs-common
