@@ -6,3 +6,5 @@
 - include: debian.yml
   when: ansible_os_family == "Debian"
 
+- name: Add virt group to GlusterFS
+  template: src=gluster-virt.j2 dest=/var/lib/glusterd/groups/virt
