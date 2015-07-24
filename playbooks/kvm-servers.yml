@@ -57,3 +57,8 @@
       with_items:
         - host: mount-kilimanjaro
           ip: 10.0.32.151
+
+    - name: Deploy qemu.conf
+      template:
+        src: templates/qemu.conf.j2
+        dest: /etc/libvirt/qemu.conf
