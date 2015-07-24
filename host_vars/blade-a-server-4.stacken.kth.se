@@ -26,5 +26,5 @@ motd:
   - "This is a KVM host managed by Ansible."
 
 nfsfs_addr: 10.0.32.151
-nfsfs_path: /mnt/kvm
+nfsfs_path: /kvm
 nfsfs_opts: "rw,sync,nfsvers=3,noatime"
