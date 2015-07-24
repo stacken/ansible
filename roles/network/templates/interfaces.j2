@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+source /etc/network/interfaces.d/*
+
+auto lo
+iface lo inet loopback
+
+{% for nic in network_config %}
+allow-hotplug {{ nic.device_name }}
+auto {{ nic.device_name }}
+iface {{ nic.device_name }} inet {{ nic.device_proto }}
+  address {{ nic.device_addr }}
+  netmask {{ nic.device_netmask }}
+{% if nic.device_gateway is defined %}
+  gateway {{ nic.device_gateway }}
+{% endif %}
+  hwaddress {{ nic.device_mac }}
+
+{% endfor %}

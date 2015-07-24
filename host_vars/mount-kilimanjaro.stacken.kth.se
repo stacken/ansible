@@ -1,5 +1,17 @@
 ---
 
+network_config:
+  - device_name: eth1
+    device_mac: "00:1b:21:67:d2:bc"
+    device_proto: static
+    device_addr: 130.237.234.151
+    device_netmask: 255.255.255.0
+    device_gateway: 130.237.234.1
+  - device_name: eth0
+    device_mac: "6c:f0:49:73:9e:48"
+    device_proto: static
+    device_addr: 10.0.32.151
+    device_netmask: 255.255.255.0
+
 motd:
-  - This is a AFS file server for the cell stacken.kth.se
-  - This server uses ZFS
+  - This is a fileserver backing KVM
