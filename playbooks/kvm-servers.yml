@@ -47,24 +47,3 @@
     - name: SELINUX | Set virt_use_nfs=on
       shell: setsebool -P virt_use_nfs=on
       when: virt_use_nfs.stdout.find('off') != -1
-
-    - name: Setup mount FS NFS share
-      mount:
-        fstype: nfs
-        name: /var/lib/libvirt/images
-        src: "{{ nfsfs_addr }}:{{ nfsfs_path }}"
-        opts: "{{ nfsfs_opts }}"
-        state: "{{ item }}"
-      with_items:
-        - present
-        - mounted
-
-    - name: Chronjob to manage permissions on NFS share
-      cron:
-        name: "KVM NFS share premissions"
-        minute: 0
-        job: "chown -R qemu:qemu /var/lib/libvirt/images/"
-
-  handlers:
-    - name: reload nfs
-      service: name=nfs state=restarted
