@@ -40,14 +40,11 @@
     - name: Set hostname from inventory
       hostname: name={{ inventory_hostname_short }}
 
-    - name: SELINUX | Get virt_use_nfs
-      shell: getsebool virt_use_nfs
-      register: virt_use_nfs
-      changed_when: False
-
-    - name: SELINUX | Set virt_use_nfs=on
-      shell: setsebool -P virt_use_nfs=on
-      when: virt_use_nfs.stdout.find('off') != -1
+    - name: SELINUX | Set to permissive
+      lineinfile:
+        dest: /etc/sysconfig/selinux
+        regexp: '^SELINUX='
+        line: "SELINUX=permissive"
 
     - name: Install GlusterFS FUSE package
       yum: name=glusterfs-fuse
