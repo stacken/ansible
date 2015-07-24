@@ -1,8 +1,19 @@
 ---
 
-- name: Install ntp
+- name: Install ntp (Debian)
   apt: name=ntp
+  when: ansible_os_family == "Debian"
+
+- name: Install ntp (RedHat)
+  yum: name=ntp
+  when: ansible_os_family == "RedHat"
 
 - name: Setup ntpd.conf
   template: src=ntpd.conf.j2 dest=/etc/ntp.conf
   notify: restart ntp
+  when: ansible_os_family == "Debian"
+
+- name: Setup ntpd.conf
+  template: src=ntpd.conf.j2 dest=/etc/ntp.conf
+  notify: restart ntpd
+  when: ansible_os_family == "RedHat"
