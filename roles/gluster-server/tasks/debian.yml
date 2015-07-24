@@ -8,4 +8,4 @@
     - attr
 
 - name: Enable glusterfs-server
-  service: name=glusterfs-server enabled=yes state=started
+  service: name=glusterfs-server state=started
