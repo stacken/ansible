@@ -1,0 +1,7 @@
+---
+
+- name: restart icinga
+  service: name=icinga2 state=restarted
+  delegate_to: "{{ item }}"
+  with_items: groups['icinga']
+  run_once: true

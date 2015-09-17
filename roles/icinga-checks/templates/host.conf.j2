@@ -1,0 +1,15 @@
+object Host "{{ inventory_hostname }}" {
+  import "generic-host"
+
+  address = "{{ ipv4addr.stdout }}"
+{% if ipv6addr.stdout != "record" %}
+  address6 = "{{ ipv6addr.stdout }}"
+{% endif %}
+
+  vars.os = "Linux"
+  vars.sla = "24x7"
+{% if nossh is defined %}
+  vars.nossh = 1
+{% endif %}
+}
+

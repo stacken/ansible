@@ -1,0 +1,41 @@
+---
+
+# This role is executed without facts (we can't ssh in to all these
+# machines to gather facts), so resolve what we need from DNS.
+
+- name: Get IPv4 Address
+  local_action: >
+    shell host -t A {{ inventory_hostname }} | awk '{print $NF}'
+  register: ipv4addr
+  always_run: yes
+  changed_when: false
+
+- name: Get IPv6 Address
+  local_action: >
+    shell host -t AAAA {{ inventory_hostname }} | awk '{print $NF}'
+  register: ipv6addr
+  always_run: yes
+  changed_when: false
+
+- name: Add remote hosts Icinga checks
+  template:
+    src: host.conf.j2
+    dest: "/etc/icinga2/conf.d/hosts/{{ inventory_hostname }}.conf"
+    mode: 0644
+    owner: root
+    group: root
+  delegate_to: "{{ item }}"
+  when: inventory_hostname != item
+  with_items: groups['icinga']
+  notify: restart icinga
+
+- name: Add services.conf
+  template:
+    src: services.conf.j2
+    dest: /etc/icinga2/conf.d/services.conf
+    mode: 0644
+    owner: root
+    group: root
+  delegate_to: "{{ item }}"
+  with_items: groups['icinga']
+  notify: restart icinga

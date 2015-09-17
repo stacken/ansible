@@ -1,7 +1,13 @@
 ---
 
-# Do this on all servers in ./inventory
+# Run a play agains all hosts without facts
 - hosts: all
+  gather_facts: False
+  roles:
+    - icinga-checks
+
+# Only run this against managed hosts
+- hosts: all:!unmanaged
   roles:
     - ntpd
   tasks:
