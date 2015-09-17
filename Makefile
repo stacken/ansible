@@ -2,10 +2,10 @@
 test: check
 
 check: deps
-	ansible-playbook -i inventory site.yml -u root --check --diff
+	ansible-playbook -i inventory.ini site.yml -u root --check --diff
 
 install: deps
-	ansible-playbook -i inventory site.yml -u root --diff
+	ansible-playbook -i inventory.ini site.yml -u root --diff
 
 deps: roles/nsg.galaxy/tasks/main.yml
 	ansible-playbook -i localhost, setup.yml
