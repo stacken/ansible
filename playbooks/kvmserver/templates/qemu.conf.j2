@@ -467,7 +467,7 @@ dynamic_ownership = 0
 
 # Override the listen address for all incoming migrations. Defaults to
 # 0.0.0.0, or :: if both host and qemu are capable of IPv6.
-migration_address = "{{ ansible_eno1.ipv4.address }}"
+#migration_address =
 
 
 # The default hostname or IP address which will be used by a migration
@@ -475,7 +475,7 @@ migration_address = "{{ ansible_eno1.ipv4.address }}"
 # source has to be able to resolve this hostname and connect to it so
 # setting "localhost" will not work.  By default, the host's configured
 # hostname is used.
-migration_host = "{{ ansible_eno1.ipv4.address }}"
+#migration_host =
 
 
 # Override the port range used for incoming migrations.

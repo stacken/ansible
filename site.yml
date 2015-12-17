@@ -28,6 +28,6 @@
       when: ansible_os_family == "RedHat"
 
 # Do this on special groups of servers
-- include: playbooks/shell-servers.yml
-- include: playbooks/kvm-servers.yml
-- include: playbooks/file-servers.yml
+- include: playbooks/shellserver/site.yml
+- include: playbooks/kvmserver/site.yml
+- include: playbooks/fileserver/site.yml
