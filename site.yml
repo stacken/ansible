@@ -31,3 +31,4 @@
 - include: playbooks/shellserver/site.yml
 - include: playbooks/kvmserver/site.yml
 - include: playbooks/fileserver/site.yml
+- include: playbooks/lxd/site.yml
